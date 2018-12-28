@@ -16,11 +16,11 @@ import (
 // Instagram represent the main API handler
 //
 // Profiles: Represents instragram's user profile.
-// Account:  Represents Instagram's personal account.
-// Search:   Represents Instagram's search.
-// Timeline: Represents Instagram's timeline.
-// Activity: Represents Instagram's user activity.
-// Inbox:    Represents Instagram's messages.
+// Account:  Represents instagram's personal account.
+// Search:   Represents instagram's search.
+// Timeline: Represents instagram's timeline.
+// Activity: Represents instagram's user activity.
+// Inbox:    Represents instagram's messages.
 //
 // See Scheme section in README.md for more information.
 //
@@ -52,11 +52,11 @@ type Instagram struct {
 	Account *Account
 	// Search performs searching of multiple things (users, locations...)
 	Search *Search
-	// Timeline allows to receive timeline Media.
+	// Timeline allows to receive timeline media.
 	Timeline *Timeline
-	// Activity are Instagram notifications.
+	// Activity are instagram notifications.
 	Activity *Activity
-	// Inbox are Instagram message/chat system.
+	// Inbox are instagram message/chat system.
 	Inbox *Inbox
 
 	C *http.Client
@@ -162,7 +162,7 @@ func (inst *Instagram) Export(path string) error {
 	return ioutil.WriteFile(path, bytes, 0644)
 }
 
-// Import imports Instagram configuration
+// Import imports instagram configuration
 //
 // This function does not set proxy automatically. Use SetProxy after this call.
 func Import(path string) (*Instagram, error) {
@@ -287,7 +287,7 @@ func (inst *Instagram) sendAdID() error {
 	return err
 }
 
-// Login performs Instagram login.
+// Login performs instagram login.
 //
 // Password will be deleted after login
 func (inst *Instagram) Login() error {
@@ -437,11 +437,11 @@ func (inst *Instagram) expose() error {
 	return err
 }
 
-// GetMedia returns Media specified by id.
+// GetMedia returns media specified by id.
 //
 // The argument can be int64 or string
 //
-// See example: examples/Media/like.go
+// See example: examples/media/like.go
 func (inst *Instagram) GetMedia(o interface{}) (*FeedMedia, error) {
 	media := &FeedMedia{
 		inst:   inst,

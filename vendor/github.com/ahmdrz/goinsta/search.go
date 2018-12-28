@@ -190,7 +190,7 @@ func (search *Search) FeedTags(tag string) (*FeedTag, error) {
 	return res, err
 }
 
-// FeedTag is the struct that fits the structure returned by Instagram on TagSearch.
+// FeedTag is the struct that fits the structure returned by instagram on TagSearch.
 // Instagram's database is f*cking shit.
 // We all hate nodejs (seems that they use nodejs and mongoldb)
 // I don't know why FeedTags returns this aberration structure.

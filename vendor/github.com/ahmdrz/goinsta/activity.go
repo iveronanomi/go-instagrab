@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// Activity is the activity of your Instagram account
+// Activity is the activity of your instagram account
 //
 // You can get Recent and Following activities.
 type Activity struct {
@@ -40,7 +40,7 @@ type FollowingActivity struct {
 			Media                   []struct {
 				ID    string `json:"id"`
 				Image string `json:"image"`
-			} `json:"Media"`
+			} `json:"media"`
 			Timestamp int    `json:"timestamp"`
 			Tuuid     string `json:"tuuid"`
 		} `json:"args"`

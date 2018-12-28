@@ -28,14 +28,14 @@ type PicURLInfo struct {
 	Width  int    `json:"width"`
 }
 
-// ErrorN is general Instagram error
+// ErrorN is general instagram error
 type ErrorN struct {
 	Message   string `json:"message"`
 	Status    string `json:"status"`
 	ErrorType string `json:"error_type"`
 }
 
-// Error503 is Instagram API error
+// Error503 is instagram API error
 type Error503 struct {
 	Message string
 }
@@ -76,7 +76,7 @@ type friendResp struct {
 	Friendship Friendship `json:"friendship_status"`
 }
 
-// Location stores Media location information.
+// Location stores media location information.
 type Location struct {
 	Pk               int     `json:"pk"`
 	Name             string  `json:"name"`
@@ -128,10 +128,10 @@ type Friendship struct {
 	IsMutingReel    bool `json:"is_muting_reel"`
 }
 
-// SavedMedia stores the information about Media being saved before in my account.
+// SavedMedia stores the information about media being saved before in my account.
 type SavedMedia struct {
 	Items []struct {
-		Media Item `json:"Media"`
+		Media Item `json:"media"`
 	} `json:"items"`
 	NumResults          int    `json:"num_results"`
 	MoreAvailable       bool   `json:"more_available"`
@@ -164,7 +164,7 @@ type Candidate struct {
 	URL    string `json:"url"`
 }
 
-// Tag is the information of an user being tagged on any Media.
+// Tag is the information of an user being tagged on any media.
 type Tag struct {
 	In []struct {
 		User                  User        `json:"user"`
@@ -174,7 +174,7 @@ type Tag struct {
 	} `json:"in"`
 }
 
-// Caption is Media caption
+// Caption is media caption
 type Caption struct {
 	ID              int64  `json:"pk"`
 	UserID          int    `json:"user_id"`
@@ -191,7 +191,7 @@ type Caption struct {
 	HasTranslation  bool   `json:"has_translation"`
 }
 
-// Mentions is a user being mentioned on Media.
+// Mentions is a user being mentioned on media.
 type Mentions struct {
 	X        float64 `json:"x"`
 	Y        float64 `json:"y"`
@@ -222,7 +222,7 @@ type trayResp struct {
 	Status string                `json:"status"`
 }
 
-// Tray is a set of story Media received from timeline calls.
+// Tray is a set of story media received from timeline calls.
 type Tray struct {
 	Stories []StoryMedia `json:"tray"`
 	Lives   struct {
@@ -252,7 +252,7 @@ func (tray *Tray) set(inst *Instagram, url string) {
 	}
 }
 
-// LiveItems are Live Media items
+// LiveItems are Live media items
 type LiveItems struct {
 	ID                  string      `json:"pk"`
 	User                User        `json:"user"`
@@ -304,7 +304,7 @@ type blockedListResp struct {
 	Status      string        `json:"status"`
 }
 
-// InboxItemMedia is inbox Media item
+// InboxItemMedia is inbox media item
 type InboxItemMedia struct {
 	ClientContext              string `json:"client_context"`
 	ExpiringMediaActionSummary struct {

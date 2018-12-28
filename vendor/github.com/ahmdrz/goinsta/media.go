@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-// Item represents Media items
+// Item represents media items
 //
 // All Item has Images or Videos objects which contains the url(s).
 // You can use Download function to get the best quality Image or Video from Item.
@@ -189,9 +189,9 @@ func GetBest(obj interface{}) string {
 
 // Hashtags returns caption hashtags.
 //
-// Item Media parent must be FeedMedia.
+// Item media parent must be FeedMedia.
 //
-// See example: examples/Media/hashtags.go
+// See example: examples/media/hashtags.go
 func (item *Item) Hashtags() []Hashtag {
 	hsh := make([]Hashtag, 0)
 	capt := item.Caption.Text
@@ -215,9 +215,9 @@ func (item *Item) Hashtags() []Hashtag {
 	return hsh
 }
 
-// Delete deletes your Media item. StoryMedia or FeedMedia
+// Delete deletes your media item. StoryMedia or FeedMedia
 //
-// See example: examples/Media/mediaDelete.go
+// See example: examples/media/mediaDelete.go
 func (item *Item) Delete() error {
 	insta := item.Media.Instagram()
 	data, err := insta.prepareData(
@@ -239,7 +239,7 @@ func (item *Item) Delete() error {
 	return err
 }
 
-// SyncLikers fetch new likers of a Media
+// SyncLikers fetch new likers of a media
 //
 // This function updates Item.Likers value
 func (item *Item) SyncLikers() error {
@@ -256,9 +256,9 @@ func (item *Item) SyncLikers() error {
 	return err
 }
 
-// Unlike mark Media item as unliked.
+// Unlike mark media item as unliked.
 //
-// See example: examples/Media/unlike.go
+// See example: examples/media/unlike.go
 func (item *Item) Unlike() error {
 	insta := item.Media.Instagram()
 	data, err := insta.prepareData(
@@ -280,9 +280,9 @@ func (item *Item) Unlike() error {
 	return err
 }
 
-// Like mark Media item as liked.
+// Like mark media item as liked.
 //
-// See example: examples/Media/like.go
+// See example: examples/media/like.go
 func (item *Item) Like() error {
 	insta := item.Media.Instagram()
 	data, err := insta.prepareData(
@@ -304,9 +304,9 @@ func (item *Item) Like() error {
 	return err
 }
 
-// Save saves Media item.
+// Save saves media item.
 //
-// You can get saved Media using Account.Saved()
+// You can get saved media using Account.Saved()
 func (item *Item) Save() error {
 	insta := item.Media.Instagram()
 	data, err := insta.prepareData(
@@ -328,7 +328,7 @@ func (item *Item) Save() error {
 	return err
 }
 
-// Download downloads Media item (video or image) with the best quality.
+// Download downloads media item (video or image) with the best quality.
 //
 // Input parameters are folder and filename. If filename is "" will be saved with
 // the default value name.
@@ -341,7 +341,7 @@ func (item *Item) Save() error {
 //
 // This function does not download CarouselMedia.
 //
-// See example: examples/Media/itemDownload.go
+// See example: examples/media/itemDownload.go
 func (item *Item) Download(folder, name string) (imgs, vds string, err error) {
 	var u *neturl.URL
 	var nname string
@@ -389,7 +389,7 @@ func (item *Item) Download(folder, name string) (imgs, vds string, err error) {
 		return imgs, "", err
 	}
 
-	return imgs, vds, fmt.Errorf("canno't find image")
+	return imgs, vds, fmt.Errorf("cannot find any image or video")
 }
 
 // TopLikers returns string slice or single string (inside string slice)
@@ -436,9 +436,9 @@ type Media interface {
 	Next(...interface{}) bool
 	// Error returns error (in case it have been occurred)
 	Error() error
-	// ID returns Media id
+	// ID returns media id
 	ID() string
-	// Delete removes Media
+	// Delete removes media
 	Delete() error
 
 	Instagram() *Instagram
@@ -475,7 +475,7 @@ type StoryMedia struct {
 
 // Delete removes instragram story.
 //
-// See example: examples/Media/deleteStories.go
+// See example: examples/media/deleteStories.go
 func (media *StoryMedia) Delete() error {
 	insta := media.inst
 	data, err := insta.prepareData(
@@ -633,7 +633,7 @@ func (media *StoryMedia) Next(params ...interface{}) bool {
 		m := StoryMedia{}
 		err = json.Unmarshal(body, &m)
 		if err == nil {
-			// TODO check NextID Media
+			// TODO check NextID media
 			*media = m
 			media.inst = insta
 			media.endpoint = endpoint
@@ -646,7 +646,7 @@ func (media *StoryMedia) Next(params ...interface{}) bool {
 	return false
 }
 
-// FeedMedia represent a set of Media items
+// FeedMedia represent a set of media items
 type FeedMedia struct {
 	inst *Instagram
 
@@ -666,9 +666,9 @@ type FeedMedia struct {
 	NextID interface{} `json:"next_max_id"`
 }
 
-// Delete deletes all items in Media. Take care...
+// Delete deletes all items in media. Take care...
 //
-// See example: examples/Media/mediaDelete.go
+// See example: examples/media/mediaDelete.go
 func (media *FeedMedia) Delete() error {
 	for i := range media.Items {
 		media.Items[i].Delete()
@@ -680,13 +680,13 @@ func (media *FeedMedia) Instagram() *Instagram {
 	return media.inst
 }
 
-// SetID sets Media ID
+// SetID sets media ID
 // this value can be int64 or string
 func (media *FeedMedia) SetID(id interface{}) {
 	media.NextID = id
 }
 
-// Sync updates Media values.
+// Sync updates media values.
 func (media *FeedMedia) Sync() error {
 	id := media.ID()
 	insta := media.inst
@@ -731,7 +731,7 @@ func (media FeedMedia) Error() error {
 	return media.err
 }
 
-// ID returns Media id.
+// ID returns media id.
 func (media *FeedMedia) ID() string {
 	switch s := media.NextID.(type) {
 	case string:
@@ -801,7 +801,7 @@ func (media *FeedMedia) Next(params ...interface{}) bool {
 	return false
 }
 
-// UploadPhoto post image from io.Reader to Instagram.
+// UploadPhoto post image from io.Reader to instagram.
 func (insta *Instagram) UploadPhoto(photo io.Reader, photoCaption string, quality int, filterType int) (Item, error) {
 	out := Item{}
 
@@ -905,7 +905,7 @@ func (insta *Instagram) UploadPhoto(photo io.Reader, photoCaption string, qualit
 	}
 
 	body, err = insta.sendRequest(&reqOptions{
-		Endpoint: "Media/configure/?",
+		Endpoint: "media/configure/?",
 		Query:    generateSignature(data),
 		IsPost:   true,
 	})
@@ -913,7 +913,7 @@ func (insta *Instagram) UploadPhoto(photo io.Reader, photoCaption string, qualit
 		return out, err
 	}
 	var uploadResult struct {
-		Media    Item   `json:"Media"`
+		Media    Item   `json:"media"`
 		UploadID string `json:"upload_id"`
 		Status   string `json:"status"`
 	}

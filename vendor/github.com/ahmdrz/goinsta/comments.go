@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-// Comments allows user to interact with Media (item) comments.
+// Comments allows user to interact with media (item) comments.
 // You can Add or Delete by index or by user name.
 type Comments struct {
 	item     *Item
@@ -51,7 +51,7 @@ func (comments Comments) Error() error {
 
 // Disable disables comments in FeedMedia.
 //
-// See example: examples/Media/commentDisable.go
+// See example: examples/media/commentDisable.go
 func (comments *Comments) Disable() error {
 	switch comments.item.Media.(type) {
 	case *StoryMedia:
@@ -81,7 +81,7 @@ func (comments *Comments) Disable() error {
 
 // Enable enables comments in FeedMedia
 //
-// See example: examples/Media/commentEnable.go
+// See example: examples/media/commentEnable.go
 func (comments *Comments) Enable() error {
 	switch comments.item.Media.(type) {
 	case *StoryMedia:
@@ -161,19 +161,19 @@ func (comments *Comments) Next() bool {
 // Sync prepare Comments to receive comments.
 // Use Next to receive comments.
 //
-// See example: examples/Media/commentsSync.go
+// See example: examples/media/commentsSync.go
 func (comments *Comments) Sync() {
 	endpoint := fmt.Sprintf(urlCommentSync, comments.item.ID)
 	comments.endpoint = endpoint
 	return
 }
 
-// Add push a comment in Media.
+// Add push a comment in media.
 //
-// If parent Media is a Story this function will send a private message
+// If parent media is a Story this function will send a private message
 // replying the Instagram story.
 //
-// See example: examples/Media/commentsAdd.go
+// See example: examples/media/commentsAdd.go
 func (comments *Comments) Add(text string) (err error) {
 	var opt *reqOptions
 	item := comments.item
@@ -247,7 +247,7 @@ func (comments *Comments) Del(comment *Comment) error {
 
 // DelByID removes comment using id.
 //
-// See example: examples/Media/commentsDelByID.go
+// See example: examples/media/commentsDelByID.go
 func (comments *Comments) DelByID(id string) error {
 	return comments.Del(&Comment{idstr: id})
 }
@@ -256,7 +256,7 @@ func (comments *Comments) DelByID(id string) error {
 //
 // If limit is <= 0 DelMine will delete all your comments.
 //
-// See example: examples/Media/commentsDelMine.go
+// See example: examples/media/commentsDelMine.go
 func (comments *Comments) DelMine(limit int) error {
 	i := 0
 	if limit <= 0 {

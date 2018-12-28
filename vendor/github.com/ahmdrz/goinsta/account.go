@@ -95,7 +95,7 @@ func (account *Account) Sync() error {
 
 // ChangePassword changes current password.
 //
-// GoInsta does not store current Instagram password (for security reasons)
+// GoInsta does not store current instagram password (for security reasons)
 // If you want to change your password you must parse old and new password.
 //
 // See example: examples/account/changePass.go
@@ -244,9 +244,9 @@ func (account *Account) Following() *Users {
 // Feed returns current account feed
 //
 // 	params can be:
-// 		string: timestamp of the minimum Media timestamp.
+// 		string: timestamp of the minimum media timestamp.
 //
-// minTime is the minimum timestamp of Media.
+// minTime is the minimum timestamp of media.
 //
 // For pagination use FeedMedia.Next()
 func (account *Account) Feed(params ...interface{}) *FeedMedia {
@@ -280,7 +280,7 @@ func (account *Account) Stories() *StoryMedia {
 	return media
 }
 
-// Tags returns Media where account is tagged in
+// Tags returns media where account is tagged in
 //
 // For pagination use FeedMedia.Next()
 func (account *Account) Tags(minTimestamp []byte) (*FeedMedia, error) {
@@ -308,7 +308,7 @@ func (account *Account) Tags(minTimestamp []byte) (*FeedMedia, error) {
 	return media, err
 }
 
-// Saved returns saved Media.
+// Saved returns saved media.
 func (account *Account) Saved() (*SavedMedia, error) {
 	body, err := account.inst.sendSimpleRequest(urlUserTags, account.ID)
 	if err == nil {

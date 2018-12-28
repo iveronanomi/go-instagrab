@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Hashtag is used for getting the Media that matches a hashtag on Instagram.
+// Hashtag is used for getting the media that matches a hashtag on instagram.
 type Hashtag struct {
 	inst *Instagram
 	err  error
@@ -15,11 +15,11 @@ type Hashtag struct {
 	Sections []struct {
 		LayoutType    string `json:"layout_type"`
 		LayoutContent struct {
-			// F*ck you Instagram.
+			// F*ck you instagram.
 			// Why you do this f*cking horribly structure?!?
 			// Media []Media IS EASY. CHECK IT!
 			Medias []struct {
-				Item Item `json:"Media"`
+				Item Item `json:"media"`
 			} `json:"medias"`
 		} `json:"layout_content"`
 		FeedType        string `json:"feed_type"`

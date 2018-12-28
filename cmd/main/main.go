@@ -113,7 +113,7 @@ func Download(item *goinsta.Item, folder, name, username string) (imgs, vds stri
 			nname = path.Join(vidFolder, nname)
 		}
 		imgName := name
-		if !grab.Dump.IsScanned(username, "videos", imgName) {
+		if grab.Dump.IsScanned(username, "videos", imgName) {
 			return "", vds, nil
 		}
 		nname = getname(nname)
@@ -138,7 +138,7 @@ func Download(item *goinsta.Item, folder, name, username string) (imgs, vds stri
 			nname = path.Join(imgFolder, nname)
 		}
 		imgName := name
-		if !grab.Dump.IsScanned(username, "images", imgName) {
+		if grab.Dump.IsScanned(username, "images", imgName) {
 			return imgs, vds, nil
 		}
 		nname = getname(nname)

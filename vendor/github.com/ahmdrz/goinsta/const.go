@@ -1,8 +1,8 @@
 package goinsta
 
 const (
-	goInstaAPIUrl        = "https://i.Instagram.com/api/v1/"
-	goInstaAPIUrlv2      = "https://i.Instagram.com/api/v2/"
+	goInstaAPIUrl        = "https://i.instagram.com/api/v1/"
+	goInstaAPIUrlv2      = "https://i.instagram.com/api/v2/"
 	goInstaUserAgent     = "Instagram 27.0.0.7.97 Android (24/7.0; 380dpi; 1080x1920; OnePlus; ONEPLUS A3010; OnePlus3T; qcom; en_US)"
 	goInstaIGSigKey      = "109513c04303341a7daf27bb41b268e633b30dcc65a3fe14503f743176113869"
 	fbAnalytics          = "567067343352427"
@@ -113,5 +113,5 @@ const (
 	urlTagContent = "tags/%s/ranked_sections/"
 
 	// upload
-	urlUploadStory = "https://i.Instagram.com/rupload_igphoto/103079408575885_0_-1340379573"
+	urlUploadStory = "https://i.instagram.com/rupload_igphoto/103079408575885_0_-1340379573"
 )

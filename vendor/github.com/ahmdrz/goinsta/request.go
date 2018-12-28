@@ -20,7 +20,7 @@ type reqOptions struct {
 	// Login process
 	Login bool
 
-	// Endpoint is the request path of Instagram api
+	// Endpoint is the request path of instagram api
 	Endpoint string
 
 	// IsPost set to true will send request with POST method.

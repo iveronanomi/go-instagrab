@@ -30,7 +30,7 @@ func newUsers(inst *Instagram) *Users {
 	return users
 }
 
-// SetInstagram sets new Instagram to user structure
+// SetInstagram sets new instagram to user structure
 func (users *Users) SetInstagram(inst *Instagram) {
 	users.inst = inst
 }
@@ -96,7 +96,7 @@ type userResp struct {
 	User   User   `json:"user"`
 }
 
-// User is the representation of Instagram's user profile
+// User is the representation of instagram's user profile
 type User struct {
 	inst *Instagram
 
@@ -393,10 +393,10 @@ func (user *User) FriendShip() error {
 	return err
 }
 
-// Feed returns user feeds (Media)
+// Feed returns user feeds (media)
 //
 // 	params can be:
-// 		string: timestamp of the minimum Media timestamp.
+// 		string: timestamp of the minimum media timestamp.
 //
 // For pagination use FeedMedia.Next()
 //
@@ -471,7 +471,7 @@ func (user *User) Highlights() ([]StoryMedia, error) {
 	return nil, err
 }
 
-// Tags returns Media where user is tagged in
+// Tags returns media where user is tagged in
 //
 // For pagination use FeedMedia.Next()
 //

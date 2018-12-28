@@ -180,7 +180,7 @@ func (inbox *Inbox) Next() bool {
 	return false
 }
 
-// Conversation is the representation of an Instagram already established conversation through direct messages.
+// Conversation is the representation of an instagram already established conversation through direct messages.
 type Conversation struct {
 	inst     *Instagram
 	err      error
@@ -235,7 +235,7 @@ func (c Conversation) lastItemID() string {
 
 // Like sends heart to the conversation
 //
-// See example: examples/Media/likeAll.go
+// See example: examples/media/likeAll.go
 func (c *Conversation) Like() error {
 	insta := c.inst
 	to, err := prepareRecipients(c)
