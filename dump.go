@@ -15,6 +15,12 @@ type dump struct {
 }
 
 func (d *dump) IsScanned(user, media, filename string) bool {
+	if _, ok := d.Scanned[user]; !ok {
+		return false
+	}
+	if _, ok := d.Scanned[user][media]; !ok {
+		return false
+	}
 	_, ok := d.Scanned[user][media][filename]
 	return ok
 }
@@ -39,7 +45,7 @@ func ReadDump() error {
 		err error
 		f   *os.File
 	)
-	if f, err = os.Open("dump.json"); err != nil {
+	if f, err = os.Open("./dump.json"); err != nil {
 		log.Print("couldn't read dump.json")
 	}
 	defer func() { err = f.Close() }()
@@ -55,7 +61,7 @@ func SaveDump() error {
 	if err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile("dump.json", b, os.ModePerm); err != nil {
+	if err := ioutil.WriteFile("./dump.json", b, os.ModePerm); err != nil {
 		return err
 	}
 	return err
