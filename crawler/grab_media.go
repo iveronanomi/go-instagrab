@@ -1,62 +1,68 @@
-package goinstagrab
+package crawler
 
 import (
 	"fmt"
-	api "github.com/ahmdrz/goinsta"
 	"io"
 	"log"
-	neturl "net/url"
+	"net/url"
 	"os"
 	"path"
 	"strings"
+
+	"github.com/ahmdrz/goinsta"
+	"github.com/iveronanomi/goinstagrab"
 )
 
-func GrabMedia(names []string, walker *api.Instagram, l *log.Logger) {
+// LatestMedia ...
+func (s *service) LatestMedia() {
+	names := goinstagrab.Config.ScanTargets
 	for _, uName := range names {
-		user, err := walker.Profiles.ByName(uName)
+		user, err := s.api.Profiles.ByName(uName)
 		if err != nil {
-			l.Print(err)
+			s.l.Print(err)
 			return
 		}
-		feeds := user.Feed()
 		j := 0
+		feeds := user.Feed()
 		for feeds.Next() {
 			j++
 			for _, img := range feeds.Items {
-				_, _, err := Download(&img, fmt.Sprintf("./data/%s/feed/", user.Username), "", user.Username)
+				_, _, err := s.download(&img, fmt.Sprintf("./data/%s/feed/", user.Username), "", user.Username)
 				if err != nil {
-					l.Printf("getting feed error: %v", err)
+					s.l.Printf("%d:%s stories saved: %d", user.ID, user.Username, j)
+					s.l.Printf("getting feed error: %v", err)
 					break
 				}
 			}
-			if Config.DeepScan > 0 && Config.DeepScan <= j {
+			s.l.Printf("%d:%s stories saved: %d", user.ID, user.Username, j)
+			if goinstagrab.Config.DeepScan <= j {
 				break
 			}
-			l.Printf("%d:%s feeds saved: %d", user.ID, user.Username, j)
 		}
 
+		j = 0
 		stories := user.Stories()
 		for stories.Next() {
-			j := 0
 			for _, story := range stories.Items {
 				j++
-				_, _, err := Download(&story, fmt.Sprintf("./data/%s/story/", user.Username), "", user.Username)
+				_, _, err := s.download(&story, fmt.Sprintf("./data/%s/story/", user.Username), "", user.Username)
 				if err != nil {
-					l.Printf("getting story error: %v", err)
+					s.l.Printf("%d:%s stories saved: %d", user.ID, user.Username, j)
+					s.l.Printf("getting story error: %v", err)
 					break
 				}
 			}
-			if Config.DeepScan > 0 && Config.DeepScan <= j {
+			s.l.Printf("%d:%s stories saved: %d", user.ID, user.Username, j)
+			if goinstagrab.Config.DeepScan <= j {
 				break
 			}
-			l.Printf("%d:%s stories saved: %d", user.ID, user.Username, j)
 		}
 	}
 }
 
-func Download(item *api.Item, folder, name, username string) (imgs, vds string, err error) {
+func (s *service) download(item *goinsta.Item, folder, name, username string) (imgs, vds string, err error) {
 	log.SetPrefix("Download ")
-	var u *neturl.URL
+	var u *url.URL
 	var nname string
 	imgFolder := path.Join(folder, "images")
 	vidFolder := path.Join(folder, "videos")
@@ -66,10 +72,10 @@ func Download(item *api.Item, folder, name, username string) (imgs, vds string, 
 	os.MkdirAll(imgFolder, 0777)
 	os.MkdirAll(vidFolder, 0777)
 
-	vds = api.GetBest(item.Videos)
+	vds = goinsta.GetBest(item.Videos)
 	if vds != "" {
 		if name == "" {
-			u, err = neturl.Parse(vds)
+			u, err = url.Parse(vds)
 			if err != nil {
 				return
 			}
@@ -79,22 +85,22 @@ func Download(item *api.Item, folder, name, username string) (imgs, vds string, 
 			nname = path.Join(vidFolder, nname)
 		}
 		imgName := name
-		if Dump.IsScanned(username, "videos", imgName) {
+		if goinstagrab.Dump.IsScanned(username, "videos", imgName) {
 			return "", vds, nil
 		}
 		nname = getname(nname)
 
-		vds, err = download(inst, vds, nname)
+		vds, err = get(inst, vds, nname)
 		if err != nil {
-			Dump.MarkScanned(username, "videos", imgName)
+			goinstagrab.Dump.MarkMediaScanned(username, "videos", imgName)
 		}
 		return "", vds, err
 	}
 
-	imgs = api.GetBest(item.Images.Versions)
+	imgs = goinsta.GetBest(item.Images.Versions)
 	if imgs != "" {
 		if name == "" {
-			u, err = neturl.Parse(imgs)
+			u, err = url.Parse(imgs)
 			if err != nil {
 				return
 			}
@@ -104,14 +110,14 @@ func Download(item *api.Item, folder, name, username string) (imgs, vds string, 
 			nname = path.Join(imgFolder, nname)
 		}
 		imgName := name
-		if Dump.IsScanned(username, "images", imgName) {
+		if goinstagrab.Dump.IsScanned(username, "images", imgName) {
 			return imgs, vds, nil
 		}
 		nname = getname(nname)
 
-		imgs, err = download(inst, imgs, nname)
+		imgs, err = get(inst, imgs, nname)
 		if err != nil {
-			Dump.MarkScanned(username, "videos", imgName)
+			goinstagrab.Dump.MarkMediaScanned(username, "videos", imgName)
 		}
 		return imgs, "", err
 	}
@@ -119,7 +125,7 @@ func Download(item *api.Item, folder, name, username string) (imgs, vds string, 
 	return imgs, vds, fmt.Errorf("cannot find any image or video")
 }
 
-func download(inst *api.Instagram, url, dst string) (string, error) {
+func get(inst *goinsta.Instagram, url, dst string) (string, error) {
 	file, err := os.Create(dst)
 	if err != nil {
 		return "", err

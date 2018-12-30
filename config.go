@@ -13,6 +13,7 @@ type config struct {
 	UserName     string   `json:"user_name"`
 	ScanTargets  []string `json:"scan_targets"`
 	DeepScan     int      `json:"deep_scan"`
+	DownloadPath string   `json:"download_path"`
 }
 
 func ReadConfig() error {
@@ -25,5 +26,9 @@ func ReadConfig() error {
 		return err
 	}
 	Config = &config{}
-	return json.NewDecoder(f).Decode(Config)
+	if err := json.NewDecoder(f).Decode(Config); err != nil {
+		return err
+	}
+
+	return nil
 }

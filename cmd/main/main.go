@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"log"
-
-	grab "github.com/iveronanomi/goinstagrab"
 	"os"
 
-	api "github.com/ahmdrz/goinsta"
+	"github.com/ahmdrz/goinsta"
+	grab "github.com/iveronanomi/goinstagrab"
+	"github.com/iveronanomi/goinstagrab/crawler"
 )
 
 func main() {
@@ -21,40 +20,23 @@ func main() {
 		l.Printf("could not read dump file %v", err)
 	}
 
-	l.Printf("username: `%s` password: `%s`", grab.Config.UserName, grab.Config.UserPassword)
-	walker := api.New(grab.Config.UserName, grab.Config.UserPassword)
-	if err := walker.Login(); err != nil {
+	//l.Printf("username: `%s` password: `%s`", grab.Config.UserName, grab.Config.UserPassword)
+	api := goinsta.New(grab.Config.UserName, grab.Config.UserPassword)
+	if err := api.Login(); err != nil {
 		l.Print(err)
 		return
 	}
+	cr := crawler.New(api, l)
+
 	defer func() {
 		if err := grab.SaveDump(); err != nil {
 			l.Print(err)
 		}
-		if err := walker.Logout(); err != nil {
+		if err := api.Logout(); err != nil {
 			panic(err)
 		}
 	}()
 
-	if err := walker.Inbox.Sync(); err != nil {
-		l.Printf("inbox sync error `%v`", err)
-		return
-	}
-
-	for _, c := range walker.Inbox.Conversations {
-		for c.Next() {
-			for _, i := range c.Items {
-				if i.Type == "text" {
-					fmt.Printf("%d: %s\n", i.UserID, i.Text)
-				}
-			}
-		}
-		fmt.Println("=======")
-		if err := walker.Inbox.Sync(); err != nil {
-			l.Printf("inbox sync error `%v`", err)
-			return
-		}
-	}
-
+	cr.GrabConversations()
 	//grab.GrabMedia(grab.Config.ScanTargets, walker, l)
 }
